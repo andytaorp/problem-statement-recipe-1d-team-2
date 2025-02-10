@@ -5,11 +5,11 @@ import { useAuthContext } from '../hooks/useAuthContext'
 const RecipesForm = () => {
     const {dispatch} = useRecipesContext();
     const {user} = useAuthContext();
-    const [title, setTitle] = useState('');
+    const [name, setName] = useState('');
     const [ingredients, setIngredients] = useState([]);
     const [instructions, setInstructions] = useState('');
-    const [prepTime, setPrepTime] = useState();
-    const [difficulty, setDifficulty] = useState('');
+    const [prepTime, setPrepTime] = useState('');
+    const [difficulty, setDifficulty] = useState('Easy');
     const [error, setError] = useState(null);
     const [emptyFields, setEmptyFields] = useState([]);
 
@@ -20,7 +20,7 @@ const RecipesForm = () => {
             setError('You must be logged in.');
             return;
         }
-        const recipes = { title, ingredients, instructions, prepTime, difficulty };
+        const recipes = { name, ingredients, instructions, prepTime, difficulty };
         const response = await fetch('/api/recipes', {
             method: 'POST',
             body: JSON.stringify(recipes),
@@ -36,11 +36,11 @@ const RecipesForm = () => {
             setEmptyFields(json.emptyFields);
         }
         if (response.ok) {
-            setTitle('');
+            setName('');
             setIngredients([]);
             setInstructions('');
-            setPrepTime(0);
-            setDifficulty('');
+            setPrepTime('');
+            setDifficulty('Easy');
             setError(null);
             setEmptyFields([]);
             console.log('Recipe added successfully', json);
@@ -51,12 +51,12 @@ const RecipesForm = () => {
         <form className="create" onSubmit={handleSubmit}>
             <h3>Create a recipe</h3>
 
-            <label>Recipe Title:</label>
+            <label>Recipe Name:</label>
             <input
             type="text"
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
-            className={emptyFields.includes('title') ? 'error' : ''}
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+            className={emptyFields.includes('name') ? 'error' : ''}
             />
 
             <label>Ingredients:</label>
@@ -89,13 +89,18 @@ const RecipesForm = () => {
             value={difficulty}
             className={emptyFields.includes('difficulty') ? 'error' : ''}
             >
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
             </select>
 
             <button>Create Recipe</button>
             {error && <div className="error">{error}</div>}
+            {name}
+            {ingredients}
+            {instructions}
+            {prepTime}
+            {difficulty}
         </form>   
     )
 }
