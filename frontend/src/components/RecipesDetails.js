@@ -14,7 +14,7 @@ const RecipesDetails = ({ recipe }) => {
 
         const res = await fetch(`/api/recipes/${recipe._id}`, {
             method: 'DELETE',
-            headers: { method: 'DELETE', headers: { 'Authorization': `Bearer ${user.token}` }}
+            headers: { 'Authorization': `Bearer ${user.token}` }
         })
 
         const json = await res.json()
@@ -26,9 +26,10 @@ const RecipesDetails = ({ recipe }) => {
     return (
         <div className='recipe-details'>
             <h4>{recipe.name}</h4>
-            <p><strong>Ingredients:</strong> {recipe.ingredient}</p>
+            <p><strong>Ingredients:</strong> {recipe.ingredients}</p>
+            <p><strong>Instructions:</strong> {recipe.instructions}</p>
             <p><strong>Prep Time:</strong> {recipe.prepTime}</p>
-            <p><strong>Difficulty:</strong> {recipe.diffculty}</p>
+            <p><strong>Difficulty:</strong> {recipe.difficulty}</p>
             <p>{formatDistanceToNow(new Date(recipe.createdAt), {addSuffix: true})}</p>
             <span className='material-symbols-outlined' onClick={handleClick}>Delete</span>
         </div>
