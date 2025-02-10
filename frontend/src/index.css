@@ -68,10 +68,10 @@ header a {
 }
 
 /* new recipe form */
-label, input {
+label, input, select {
   display: block;
 }
-input {
+input, select {
   padding: 10px;
   margin-top: 10px;
   margin-bottom: 20px;
