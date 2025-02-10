@@ -134,7 +134,6 @@ const NutritionAnalysis = () => {
                             : "Data Unavailable"}</li>
                     </ul>
                 </div>
-
             )}
         </div>
     );
