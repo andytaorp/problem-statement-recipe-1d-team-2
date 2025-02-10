@@ -28,7 +28,6 @@ const Navbar = () => {
 
                     { !user && (
                         <div>
-                            <Link to='/nutrition-analysis'>Nutrition Analysis</Link>&nbsp;&nbsp;&nbsp;
                             <Link to='/login'>Log in</Link>
                             <Link to='/register'>Sign up</Link>
                         </div>
