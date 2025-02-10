@@ -5,6 +5,6 @@ Hakim Mislani - Home.js, RecipesDetails.js, testing the web app
 
 Teck Hong - Home.js - search, NutritionAnalysis.js
 
-Yong Keong - Yong Keong - Form with create, retrieve and add recipes in context folder.
+Yong Keong - Form with create, retrieve and add recipes in context folder.
 
 Yi Lee - Authentication
