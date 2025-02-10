@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import RecipeDetails from "./components/RecipeDetails";
+import RecipesDetails from "../components/RecipesDetails";
 
 const Home = () => {
     const [recipes, setRecipes] = useState(null)
@@ -22,7 +22,7 @@ const Home = () => {
         <div className='home'>
             <div className='recipes'>
                 {recipes && recipes.map((recipe) => {
-                    <RecipeDetails key={recipe._id} recipe={recipe} />
+                    <RecipesDetails key={recipe._id} recipe={recipe} />
                 })}
             </div>
         </div>
