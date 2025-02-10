@@ -2,9 +2,14 @@ import { useEffect }from 'react'
 import { useRecipesContext } from "../hooks/useRecipesContext"
 import { useAuthContext } from "../hooks/useAuthContext"
 
+<<<<<<< HEAD
 // components
 import RecipesDetails from '../components/RecipesDetails'
 import RecipesForm from '../components/RecipesForm'
+=======
+import RecipesDetails from "../components/RecipesDetails";
+import RecipesForm from "../components/RecipesForm";
+>>>>>>> b21faca77ec7712e041897843d783b3f21167970
 
 const Home = () => {
   const {recipes, dispatch} = useRecipesContext()
@@ -22,6 +27,7 @@ const Home = () => {
       }
     }
 
+<<<<<<< HEAD
     if (user) {
       fetchWorkouts()
     }
@@ -37,6 +43,18 @@ const Home = () => {
       <RecipesForm />
     </div>
   )
+=======
+    return (
+        <div className='home'>
+            <div className='recipes'>
+                {recipes && recipes.map((recipe) => {
+                    <RecipesDetails key={recipe._id} recipe={recipe} />
+                })}
+            </div>
+            <RecipesForm />  
+        </div>
+    )
+>>>>>>> b21faca77ec7712e041897843d783b3f21167970
 }
 
 export default Home
