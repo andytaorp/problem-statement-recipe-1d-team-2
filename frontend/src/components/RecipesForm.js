@@ -96,11 +96,6 @@ const RecipesForm = () => {
 
             <button>Create Recipe</button>
             {error && <div className="error">{error}</div>}
-            {name}
-            {ingredients}
-            {instructions}
-            {prepTime}
-            {difficulty}
         </form>   
     )
 }
