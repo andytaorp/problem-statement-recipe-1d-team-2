@@ -4,7 +4,12 @@
 Hakim Mislani
 
 Teck Hong
+<<<<<<< HEAD
 
 Yong Keong
 
 Yi Lee
+=======
+Yong Keong
+Yi Lee
+>>>>>>> 686949b2d01316a54da39ac8f17f2d07d0be59a6
