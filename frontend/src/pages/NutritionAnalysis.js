@@ -8,7 +8,7 @@ const NutritionAnalysis = () => {
     const [loading, setLoading] = useState(false);
 
     // Secure API Key Handling
-    const API_KEY = process.env.REACT_APP_LOGMEAL_API_KEY; //|| "694ec2159e5fa1feef97081eef52b790b597ff8f";
+    const API_KEY = "c98b036d7cec87c4145793e217a390deadbd37c3";
 
     // Handle Image Selection
     const handleFileChange = (e) => {
