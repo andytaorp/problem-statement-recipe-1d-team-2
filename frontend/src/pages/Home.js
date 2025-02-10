@@ -9,23 +9,23 @@ const Home = () => {
   const {recipes, dispatch} = useRecipesContext()
   const {user} = useAuthContext()
 
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      const response = await fetch('/api/recipes', {
-        headers: {'Authorization': `Bearer ${user.token}`},
-      })
-      const json = await response.json()
+    useEffect(() => {
+        const fetchRecipes = async () => {
+        const response = await fetch('/api/recipes', {
+            headers: {'Authorization': `Bearer ${user.token}`},
+        })
+        const json = await response.json()
 
-      if (response.ok) {
-        dispatch({type: 'SET_RECIPES', payload: json})
-      }
-    }
+            if (response.ok) {
+            dispatch({type: 'SET_RECIPES', payload: json})
+            }
+        }
 
-    if ( user ) {
-        fetchRecipes()
-      }
+        if ( user ) {
+            fetchRecipes()
+        }
 
-})
+    }, [dispatch, user])
 
     return (
         <div className='home'>
