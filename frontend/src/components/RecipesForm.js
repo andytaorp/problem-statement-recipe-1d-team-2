@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { useRecipesContext } from "../hooks/useRecipesContext";
-// import { useAuthContext } from "../hooks/useAuthContext";
+import { useRecipesContext } from '../hooks/useRecipesContext'
+import { useAuthContext } from '../hooks/useAuthContext'
 
 const RecipesForm = () => {
     const {dispatch} = useRecipesContext();
-    // const {user} = useAuthContext();
+    const {user} = useAuthContext();
     const [title, setTitle] = useState('');
     const [ingredients, setIngredients] = useState([]);
     const [instructions, setInstructions] = useState('');
-    const [prepTime, setPrepTime] = useState(0);
+    const [prepTime, setPrepTime] = useState();
     const [difficulty, setDifficulty] = useState('');
     const [error, setError] = useState(null);
     const [emptyFields, setEmptyFields] = useState([]);
@@ -16,17 +16,17 @@ const RecipesForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        // if (!user) {
-        //     setError('You must be logged in.');
-        //     return;
-        // }
+        if (!user) {
+            setError('You must be logged in.');
+            return;
+        }
         const recipes = { title, ingredients, instructions, prepTime, difficulty };
-        const response = await fetch(`/api/recipes`, {
+        const response = await fetch('/api/recipes', {
             method: 'POST',
             body: JSON.stringify(recipes),
             headers: {
                 'Content-Type': 'application/json',
-                // 'Authorization': `Bearer ${user.token}`
+                'Authorization': `Bearer ${user.token}`
             }
         })
         const json = await response.json();
@@ -77,19 +77,22 @@ const RecipesForm = () => {
 
             <label>Preparation Time:</label>
             <input
-            type="text"
+            type="number"
             onChange={(e) => setPrepTime(e.target.value)}
             value={prepTime}
             className={emptyFields.includes('prepTime') ? 'error' : ''}
             />
 
             <label>Difficulty Level:</label>
-            <input
-            type="text"
+            <select
             onChange={(e) => setDifficulty(e.target.value)}
             value={difficulty}
             className={emptyFields.includes('difficulty') ? 'error' : ''}
-            />
+            >
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+            </select>
 
             <button>Create Recipe</button>
             {error && <div className="error">{error}</div>}

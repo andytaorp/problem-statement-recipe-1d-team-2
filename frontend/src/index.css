@@ -148,58 +148,12 @@ header a:hover {
   cursor: not-allowed;
 }
 
-/* === Error Message Styling === */
-.error-message {
-  color: var(--error);
-  margin-top: 10px;
-  font-size: 14px;
-  text-align: center;
-  font-weight: 500;
-}
-
-/* === Nutrition Results Box === */
-.nutrition-results {
-  background: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  margin-top: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.nutrition-results h3 {
-  color: #27ae60;
-  font-size: 22px;
-  font-weight: 600;
-}
-
-.nutrition-results p {
-  font-size: 16px;
-  color: var(--dark-gray);
-  font-weight: 500;
-}
-
-.nutrition-results ul {
-  list-style: none;
-  padding: 0;
-}
-
-.nutrition-results li {
-  background: #ecf0f1;
-  padding: 12px;
-  margin: 5px 0;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-/* === Forms and Inputs === */
-label,
-input {
+/* new recipe form */
+label, input {
   display: block;
 }
-
 input {
-  padding: 12px;
+  padding: 10px;
   margin-top: 10px;
   margin-bottom: 20px;
   width: 100%;
@@ -245,18 +199,4 @@ div.error {
 
 input.error {
   border: 1px solid var(--error);
-}
-
-/* === Responsive Design === */
-@media (max-width: 768px) {
-  .home {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-
-  header .container {
-    flex-direction: column;
-    text-align: center;
-  }
 }
