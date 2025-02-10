@@ -31,7 +31,7 @@ const createRecipe = async (req, res) => {
   if (!name) {
     emptyFields.push("name");
   }
-  if (!ingredients) {
+  if (ingredients.length === 0) {
     emptyFields.push("ingredients");
   }
   if (!instructions) {
