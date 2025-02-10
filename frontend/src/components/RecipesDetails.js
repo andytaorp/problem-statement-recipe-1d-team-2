@@ -14,7 +14,7 @@ const RecipesDetails = ({ recipe }) => {
 
         const res = await fetch(`/api/recipes/${recipe._id}`, {
             method: 'DELETE',
-            headers: { method: 'DELETE', headers: { 'Authorization': `Bearer ${user.token}` }}
+            //headers: { method: 'DELETE', headers: { 'Authorization': `Bearer ${user.token}` }}
         })
 
         const json = await res.json()
