@@ -87,7 +87,6 @@ const RecipesForm = () => {
             <select
             onChange={(e) => setDifficulty(e.target.value)}
             value={difficulty}
-            className={emptyFields.includes('difficulty') ? 'error' : ''}
             >
             <option value="easy">Easy</option>
             <option value="medium">Medium</option>
