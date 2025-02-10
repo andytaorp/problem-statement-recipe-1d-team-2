@@ -8,6 +8,11 @@ const Navbar = () => {
                 <Link to='/'>
                     <h1>Recipes Manager</h1>
                 </Link>
+                <nav>
+                    <div>
+                        <Link to='/nutrition-analysis'>Nutrition Analysis</Link>
+                    </div>
+                </nav>
             </div>
         </header>
     )
