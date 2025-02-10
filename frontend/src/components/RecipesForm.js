@@ -9,7 +9,7 @@ const RecipesForm = () => {
     const [ingredients, setIngredients] = useState([]);
     const [instructions, setInstructions] = useState('');
     const [prepTime, setPrepTime] = useState('');
-    const [difficulty, setDifficulty] = useState('Easy');
+    const [difficulty, setDifficulty] = useState('easy');
     const [error, setError] = useState(null);
     const [emptyFields, setEmptyFields] = useState([]);
 
@@ -40,7 +40,7 @@ const RecipesForm = () => {
             setIngredients([]);
             setInstructions('');
             setPrepTime('');
-            setDifficulty('Easy');
+            setDifficulty('easy');
             setError(null);
             setEmptyFields([]);
             console.log('Recipe added successfully', json);
