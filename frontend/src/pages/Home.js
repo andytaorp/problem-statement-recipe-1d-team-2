@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import RecipesDetails from "../components/RecipesDetails";
+import RecipesForm from "../components/RecipesForm";
 
 const Home = () => {
     const [recipes, setRecipes] = useState(null)
@@ -25,6 +26,7 @@ const Home = () => {
                     <RecipesDetails key={recipe._id} recipe={recipe} />
                 })}
             </div>
+            <RecipesForm />  
         </div>
     )
 }
