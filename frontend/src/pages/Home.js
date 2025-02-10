@@ -16,7 +16,7 @@ const Home = () => {
         const fetchRecipes = async () => {
             if (!user) return;
 
-            const response = await fetch("/api/recipes", {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/recipes`, {
                 headers: { Authorization: `Bearer ${user.token}` },
             });
             const json = await response.json();

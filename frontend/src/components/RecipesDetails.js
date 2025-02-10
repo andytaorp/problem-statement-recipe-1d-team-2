@@ -12,7 +12,7 @@ const RecipesDetails = ({ recipe }) => {
             return
         }
 
-        const res = await fetch(`/api/recipes/${recipe._id}`, {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${recipe._id}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${user.token}` }
         })
