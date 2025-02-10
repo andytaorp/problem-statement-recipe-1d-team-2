@@ -103,17 +103,38 @@ const NutritionAnalysis = () => {
 
             {results && (
                 <div className="nutrition-results">
-                    <h3>🥗 Nutrition Details</h3>
-                    <p><strong>Dish:</strong> {results.dish_name || "Not Recognized"}</p>
-                    <p><strong>Calories:</strong> {results.calories ? `${results.calories} kcal` : "Not Available"}</p>
-                    <p><strong>Serving Size:</strong> {results.serving_size ? `${results.serving_size}g` : "Unknown"}</p>
-                    <h4>Macronutrients:</h4>
+                    <h3>🥗 Nutrition Information</h3>
+
+                    {/* Dish Name */}
+                    <p><strong>Dish:</strong> {results.foodName?.[0] || "Dish Not Identified"}</p>
+
+                    {/* Calories */}
+                    <p><strong>Calories:</strong> {results.nutritional_info?.calories 
+                        ? `${results.nutritional_info.calories.toFixed(1)} kcal` 
+                        : "Data Unavailable"}</p>
+
+                    {/* Serving Size */}
+                    <p><strong>Serving Size:</strong> {results.serving_size 
+                        ? `${results.serving_size}g` 
+                        : "Not Specified"}</p>
+
+                    {/* Macronutrients */}
+                    <h4>🔬 Macronutrient Breakdown</h4>
                     <ul>
-                        <li>Protein: {results.protein ? `${results.protein}g` : "Not Available"}</li>
-                        <li>Carbs: {results.carbs ? `${results.carbs}g` : "Not Available"}</li>
-                        <li>Fat: {results.fat ? `${results.fat}g` : "Not Available"}</li>
+                        <li><strong>Protein:</strong> {results.nutritional_info?.totalNutrients?.PROCNT?.quantity
+                            ? `${results.nutritional_info.totalNutrients.PROCNT.quantity.toFixed(2)}g`
+                            : "Data Unavailable"}</li>
+                        
+                        <li><strong>Carbs:</strong> {results.nutritional_info?.totalNutrients?.CHOCDF?.quantity
+                            ? `${results.nutritional_info.totalNutrients.CHOCDF.quantity.toFixed(2)}g`
+                            : "Data Unavailable"}</li>
+
+                        <li><strong>Fat:</strong> {results.nutritional_info?.totalNutrients?.FAT?.quantity
+                            ? `${results.nutritional_info.totalNutrients.FAT.quantity.toFixed(2)}g`
+                            : "Data Unavailable"}</li>
                     </ul>
                 </div>
+
             )}
         </div>
     );
