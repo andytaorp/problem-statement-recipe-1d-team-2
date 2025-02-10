@@ -16,6 +16,7 @@ const Navbar = () => {
                 <Link to='/'>
                     <h1>Recipes Manager</h1>
                 </Link>
+
                 <nav>
                     { user && (
                         <div>
@@ -32,6 +33,7 @@ const Navbar = () => {
                         </div>
                     )}
                 </nav>
+                
             </div>
         </header>
     )
