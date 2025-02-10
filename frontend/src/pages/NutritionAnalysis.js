@@ -1,92 +1,90 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 const NutritionAnalysis = () => {
-    const [image, setImage] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null);
     const [preview, setPreview] = useState(null);
-    const [nutritionData, setNutritionData] = useState(null);
+    const [results, setResults] = useState(null);
+    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null);
 
     // Secure API Key Handling
-    const API_KEY = process.env.REACT_APP_LOGMEAL_API_KEY || "aedf8262a0c74f22fa74174e459b42cda3e14ee4";
+    const API_KEY = process.env.REACT_APP_LOGMEAL_API_KEY || "694ec2159e5fa1feef97081eef52b790b597ff8f";
 
-    // Function to optimize the image before upload (convert to JPG & reduce size)
-    const optimizeImage = async (file) => {
-        const image = await fetch(URL.createObjectURL(file));
-        const blob = await image.blob();
-        return new File([blob], "optimized.jpg", { type: "image/jpeg" });
-    };
-
-    // Handle image selection
-    const handleImageChange = async (e) => {
+    // Handle Image Selection
+    const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            // Optimize image
-            const optimizedFile = await optimizeImage(file);
-            setImage(optimizedFile);
-            setPreview(URL.createObjectURL(optimizedFile));
+            setSelectedFile(file);
+            setPreview(URL.createObjectURL(file));
         }
     };
 
-    // Analyze the uploaded image using LogMeal API
-    const analyzeImage = async () => {
-        if (!image) {
-            alert("Please upload an image first!");
+    // Function to Analyze the Image
+    const handleUpload = async () => {
+        if (!selectedFile) {
+            setError("Please upload an image first.");
             return;
         }
 
         setLoading(true);
-        setNutritionData(null);
-        setErrorMessage(null);
+        setError(null);
+        setResults(null);
 
         const formData = new FormData();
-        formData.append("image", image);
+        formData.append("image", selectedFile);
 
         try {
-            console.log("API Key:", API_KEY); // Debugging API Key
-            console.log("Uploading image for food detection...");
+            console.log("Uploading image for segmentation...");
 
-            // Step 1: Upload Image for Food Detection
-            const detectionRes = await axios.post(
+            // Step 1: Upload Image for Segmentation (Using fetch)
+            const segmentationResponse = await fetch(
                 "https://api.logmeal.es/v2/image/segmentation/complete",
-                formData,
                 {
+                    method: "POST",
                     headers: {
                         Authorization: `Bearer ${API_KEY}`,
-                        "Content-Type": "multipart/form-data"
-                    }
+                    },
+                    body: formData,
                 }
             );
 
-            console.log("Detection Response:", detectionRes.data);
-
-            if (!detectionRes.data.foods || detectionRes.data.foods.length === 0) {
-                setErrorMessage("No food detected. Try another image.");
-                setLoading(false);
-                return;
+            if (!segmentationResponse.ok) {
+                throw new Error(`Segmentation API Error: ${segmentationResponse.statusText}`);
             }
 
-            const foodId = detectionRes.data.foods[0].food_id;
-            console.log("Detected Food ID:", foodId);
+            const segmentationData = await segmentationResponse.json();
+            console.log("Segmentation Response:", segmentationData);
 
-            // Step 2: Retrieve Nutrition Information
+            if (!segmentationData.imageId) {
+                throw new Error("No valid image ID returned. Try again.");
+            }
+
+            const imageId = segmentationData.imageId;
+
+            // Step 2: Retrieve Nutrition Information (Using fetch)
             console.log("Fetching nutrition data...");
-            const nutritionRes = await axios.get(
-                `https://api.logmeal.es/v2/nutrition/recipe/nutritionalInfo/${foodId}`,
+            const nutritionResponse = await fetch(
+                "https://api.logmeal.es/v2/nutrition/recipe/nutritionalInfo",
                 {
-                    headers: { Authorization: `Bearer ${API_KEY}` }
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${API_KEY}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ imageId }),
                 }
             );
 
-            console.log("Nutrition Response:", nutritionRes.data);
+            if (!nutritionResponse.ok) {
+                throw new Error(`Nutrition API Error: ${nutritionResponse.statusText}`);
+            }
 
-            setNutritionData(nutritionRes.data);
-        } catch (error) {
-            console.error("LogMeal API Error:", error.response?.data || error.message);
-            setErrorMessage(
-                "API Error: " + (error.response?.data?.message || error.message)
-            );
+            const nutritionalData = await nutritionResponse.json();
+            console.log("Nutrition Response:", nutritionalData);
+            setResults(nutritionalData);
+        } catch (err) {
+            console.error("API Error:", err.message);
+            setError("Failed to analyze food. Please check your API key and permissions.");
         } finally {
             setLoading(false);
         }
@@ -95,27 +93,25 @@ const NutritionAnalysis = () => {
     return (
         <div className="nutrition-analysis">
             <h2>🍽️ Nutrition Analysis</h2>
-
-            <input type="file" accept="image/*" onChange={handleImageChange} />
+            <input type="file" accept="image/*" onChange={handleFileChange} />
             {preview && <img src={preview} alt="Food Preview" className="preview-image" />}
-
-            <button onClick={analyzeImage} disabled={!image || loading}>
+            <button onClick={handleUpload} disabled={!selectedFile || loading}>
                 {loading ? "Analyzing..." : "Analyze Nutrition"}
             </button>
 
-            {errorMessage && <p className="error-message">❌ {errorMessage}</p>}
+            {error && <p className="error-message">❌ {error}</p>}
 
-            {nutritionData && (
+            {results && (
                 <div className="nutrition-results">
                     <h3>🥗 Nutrition Details</h3>
-                    <p><strong>Dish:</strong> {nutritionData.dish_name}</p>
-                    <p><strong>Calories:</strong> {nutritionData.calories} kcal</p>
-                    <p><strong>Serving Size:</strong> {nutritionData.serving_size}g</p>
+                    <p><strong>Dish:</strong> {results.dish_name || "Not Recognized"}</p>
+                    <p><strong>Calories:</strong> {results.calories ? `${results.calories} kcal` : "Not Available"}</p>
+                    <p><strong>Serving Size:</strong> {results.serving_size ? `${results.serving_size}g` : "Unknown"}</p>
                     <h4>Macronutrients:</h4>
                     <ul>
-                        <li>Protein: {nutritionData.protein}g</li>
-                        <li>Carbs: {nutritionData.carbs}g</li>
-                        <li>Fat: {nutritionData.fat}g</li>
+                        <li>Protein: {results.protein ? `${results.protein}g` : "Not Available"}</li>
+                        <li>Carbs: {results.carbs ? `${results.carbs}g` : "Not Available"}</li>
+                        <li>Fat: {results.fat ? `${results.fat}g` : "Not Available"}</li>
                     </ul>
                 </div>
             )}
